@@ -1,0 +1,93 @@
+name: Bolsillo Claro CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  proxy-tests:
+    name: Pruebas del Proxy Node.js
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Ejecutar pruebas del proxy sin GEMINI_API_KEY
+        run: node --test server/test/proxy_test.js
+
+  flutter-ci:
+    name: Análisis, Pruebas y Compilación de Flutter
+    runs-on: ubuntu-latest
+    needs: [proxy-tests]
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar Flutter (Canal Estable)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Instalar dependencias del proyecto
+        run: flutter pub get
+
+      - name: Verificar formato de código (dart format)
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Análisis estático de código (flutter analyze)
+        run: flutter analyze
+
+      - name: Ejecutar suite de pruebas (flutter test)
+        run: flutter test
+
+      - name: Construir APK de producción (Release)
+        run: flutter build apk --release
+
+      - name: Publicar APK como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: bolsillo-claro-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+  release:
+    name: Publicación de GitHub Release
+    runs-on: ubuntu-latest
+    needs: [flutter-ci]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Descargar artefacto APK compilado
+        uses: actions/download-artifact@v4
+        with:
+          name: bolsillo-claro-apk
+          path: release-artifacts
+
+      - name: Publicar GitHub Release con app-release.apk
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-artifacts/app-release.apk
+          generate_release_notes: true
+          name: Release ${{ github.ref_name }}

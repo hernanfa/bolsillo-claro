@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import '../../core/config/api_config.dart';
 import '../../core/errors/exceptions.dart';
 import '../models/resumen_gastos_model.dart';
@@ -17,19 +18,20 @@ class AssistantServiceImpl implements AssistantService {
   final Dio _dio;
 
   AssistantServiceImpl({Dio? customDio, String? baseUrl})
-      : _dio = customDio ??
-            Dio(
-              BaseOptions(
-                baseUrl: baseUrl ?? ApiConfig.assistantBaseUrl,
-                connectTimeout: const Duration(seconds: 15),
-                receiveTimeout: const Duration(seconds: 15),
-                sendTimeout: const Duration(seconds: 15),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                },
-              ),
-            );
+    : _dio =
+          customDio ??
+          Dio(
+            BaseOptions(
+              baseUrl: baseUrl ?? ApiConfig.assistantBaseUrl,
+              connectTimeout: const Duration(seconds: 15),
+              receiveTimeout: const Duration(seconds: 15),
+              sendTimeout: const Duration(seconds: 15),
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+            ),
+          );
 
   @override
   Future<String> consultarAsistente({

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../controllers/gastos_controller.dart';
 import '../../../core/theme/app_theme.dart';
 
@@ -58,7 +59,9 @@ class GastosResumenCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+                          color: isDark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondaryLight,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -67,7 +70,9 @@ class GastosResumenCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppTheme.lightGreen : AppTheme.primaryDarkBlue,
+                          color: isDark
+                              ? AppTheme.lightGreen
+                              : AppTheme.primaryDarkBlue,
                         ),
                       ),
                     ],
@@ -82,7 +87,9 @@ class GastosResumenCard extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.insights_rounded,
-                      color: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
+                      color: isDark
+                          ? AppTheme.lightGreen
+                          : AppTheme.accentGreen,
                       size: 26,
                     ),
                   ),
@@ -94,7 +101,9 @@ class GastosResumenCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+                  color: isDark
+                      ? AppTheme.textSecondaryDark
+                      : AppTheme.textSecondaryLight,
                 ),
               ),
               const SizedBox(height: AppTheme.spacingSm),
@@ -104,14 +113,19 @@ class GastosResumenCard extends StatelessWidget {
                   children: resumen.categorias.map((catResumen) {
                     return Container(
                       margin: const EdgeInsets.only(right: AppTheme.spacingSm),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppTheme.backgroundDark.withValues(alpha: 0.5)
                             : AppTheme.backgroundLight,
                         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                         border: Border.all(
-                          color: isDark ? AppTheme.cardBorderDark : AppTheme.cardBorderLight,
+                          color: isDark
+                              ? AppTheme.cardBorderDark
+                              : AppTheme.cardBorderLight,
                         ),
                       ),
                       child: Row(
@@ -119,14 +133,17 @@ class GastosResumenCard extends StatelessWidget {
                           Icon(
                             _iconForCategory(catResumen.categoria),
                             size: 18,
-                            color: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
+                            color: isDark
+                                ? AppTheme.lightGreen
+                                : AppTheme.accentGreen,
                           ),
                           const SizedBox(width: 8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                catResumen.categoria.capitalizeFirst ?? catResumen.categoria,
+                                catResumen.categoria.capitalizeFirst ??
+                                    catResumen.categoria,
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -147,7 +164,9 @@ class GastosResumenCard extends StatelessWidget {
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500,
                                   color: catResumen.disponible > 50
-                                      ? (isDark ? AppTheme.lightGreen : AppTheme.accentGreen)
+                                      ? (isDark
+                                            ? AppTheme.lightGreen
+                                            : AppTheme.accentGreen)
                                       : AppTheme.error,
                                 ),
                               ),

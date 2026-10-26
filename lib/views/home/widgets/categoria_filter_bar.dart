@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/gastos_controller.dart';
 import '../../../core/theme/app_theme.dart';
@@ -24,7 +25,8 @@ class CategoriaFilterBar extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingLg),
           itemCount: categories.length,
-          separatorBuilder: (context, index) => const SizedBox(width: AppTheme.spacingSm),
+          separatorBuilder: (context, index) =>
+              const SizedBox(width: AppTheme.spacingSm),
           itemBuilder: (context, index) {
             final cat = categories[index];
             final isSelected = cat == selected;
@@ -35,18 +37,26 @@ class CategoriaFilterBar extends StatelessWidget {
                 style: TextStyle(
                   color: isSelected
                       ? Colors.white
-                      : (isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight),
+                      : (isDark
+                            ? AppTheme.textPrimaryDark
+                            : AppTheme.textPrimaryLight),
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                   fontSize: 13,
                 ),
               ),
               selected: isSelected,
-              selectedColor: isDark ? AppTheme.accentGreen : AppTheme.primaryDarkBlue,
-              backgroundColor: isDark ? AppTheme.surfaceDark : AppTheme.surfaceLight,
+              selectedColor: isDark
+                  ? AppTheme.accentGreen
+                  : AppTheme.primaryDarkBlue,
+              backgroundColor: isDark
+                  ? AppTheme.surfaceDark
+                  : AppTheme.surfaceLight,
               side: BorderSide(
                 color: isSelected
                     ? Colors.transparent
-                    : (isDark ? AppTheme.cardBorderDark : AppTheme.cardBorderLight),
+                    : (isDark
+                          ? AppTheme.cardBorderDark
+                          : AppTheme.cardBorderLight),
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

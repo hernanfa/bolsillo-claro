@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/auth_controller.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -65,10 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Text(
                 'Controla tus gastos de forma sencilla',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Color(0xFFCBD5E1),
-                ),
+                style: TextStyle(fontSize: 15, color: Color(0xFFCBD5E1)),
               ),
               const SizedBox(height: AppTheme.spacingXl),
               const SizedBox(
@@ -76,7 +74,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 28,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppTheme.accentGreen),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppTheme.accentGreen,
+                  ),
                 ),
               ),
             ],

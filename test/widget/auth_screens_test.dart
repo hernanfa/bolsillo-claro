@@ -9,6 +9,7 @@ import 'package:bolsillo_claro/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+
 import '../mocks/mock_assistant_dependencies.dart';
 import '../mocks/mock_auth_dependencies.dart';
 import '../mocks/mock_gastos_dependencies.dart';
@@ -33,7 +34,9 @@ void main() {
     mockAssistantService = MockAssistantService();
 
     gastosController = GastosController(gastosRepository: mockGastosRepository);
-    themeController = ThemeController(settingsService: fakeSettingsStorageService);
+    themeController = ThemeController(
+      settingsService: fakeSettingsStorageService,
+    );
     assistantController = AssistantController(
       assistantService: mockAssistantService,
       gastosRepository: mockGastosRepository,
@@ -55,10 +58,7 @@ void main() {
   });
 
   Widget createTestWidget(Widget child) {
-    return GetMaterialApp(
-      theme: AppTheme.lightTheme,
-      home: child,
-    );
+    return GetMaterialApp(theme: AppTheme.lightTheme, home: child);
   }
 
   group('Widget Tests - LoginScreen', () {
@@ -73,7 +73,9 @@ void main() {
       expect(find.text('Regístrate aquí'), findsOneWidget);
     });
 
-    testWidgets('muestra errores de validación si se envía formulario vacío', (tester) async {
+    testWidgets('muestra errores de validación si se envía formulario vacío', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget(const LoginScreen()));
       await tester.pumpAndSettle();
 
@@ -86,17 +88,22 @@ void main() {
       expect(mockAuthRepository.loginCallCount, 0);
     });
 
-    testWidgets('muestra banner con mensaje legible si el controlador reporta error', (tester) async {
-      controller.errorMessage.value = 'Email o contraseña incorrectos';
+    testWidgets(
+      'muestra banner con mensaje legible si el controlador reporta error',
+      (tester) async {
+        controller.errorMessage.value = 'Email o contraseña incorrectos';
 
-      await tester.pumpWidget(createTestWidget(const LoginScreen()));
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(createTestWidget(const LoginScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Email o contraseña incorrectos'), findsOneWidget);
-      expect(find.byIcon(Icons.error_outline_rounded), findsOneWidget);
-    });
+        expect(find.text('Email o contraseña incorrectos'), findsOneWidget);
+        expect(find.byIcon(Icons.error_outline_rounded), findsOneWidget);
+      },
+    );
 
-    testWidgets('alterna visibilidad de contraseña al pulsar ícono de ojo', (tester) async {
+    testWidgets('alterna visibilidad de contraseña al pulsar ícono de ojo', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget(const LoginScreen()));
       await tester.pumpAndSettle();
 
@@ -111,7 +118,9 @@ void main() {
   });
 
   group('Widget Tests - HomeScreen', () {
-    testWidgets('muestra correo del usuario y opción de cerrar sesión', (tester) async {
+    testWidgets('muestra correo del usuario y opción de cerrar sesión', (
+      tester,
+    ) async {
       controller.currentUser.value = const UserModel(
         id: 99,
         email: 'usuario.demo@bolsilloclaro.com',

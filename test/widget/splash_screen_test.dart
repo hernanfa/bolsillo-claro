@@ -4,6 +4,7 @@ import 'package:bolsillo_claro/views/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+
 import '../mocks/mock_auth_dependencies.dart';
 
 void main() {
@@ -26,12 +27,11 @@ void main() {
     Get.reset();
   });
 
-  testWidgets('SplashScreen renderiza logotipo y título de Bolsillo Claro', (tester) async {
+  testWidgets('SplashScreen renderiza logotipo y título de Bolsillo Claro', (
+    tester,
+  ) async {
     await tester.pumpWidget(
-      GetMaterialApp(
-        theme: AppTheme.lightTheme,
-        home: const SplashScreen(),
-      ),
+      GetMaterialApp(theme: AppTheme.lightTheme, home: const SplashScreen()),
     );
     await tester.pump(const Duration(milliseconds: 50));
 

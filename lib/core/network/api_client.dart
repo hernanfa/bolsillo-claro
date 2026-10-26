@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import '../config/api_config.dart';
 import '../storage/storage_service.dart';
 
@@ -7,21 +8,17 @@ class ApiClient {
   final Dio dio;
   final StorageService? storageService;
 
-  ApiClient({
-    Dio? customDio,
-    this.storageService,
-    String? baseUrl,
-  }) : dio = customDio ??
-            Dio(
-              BaseOptions(
-                baseUrl: baseUrl ?? ApiConfig.baseUrl,
-                connectTimeout: ApiConfig.connectTimeout,
-                receiveTimeout: ApiConfig.receiveTimeout,
-                headers: {
-                  'Accept': 'application/json',
-                },
-              ),
-            ) {
+  ApiClient({Dio? customDio, this.storageService, String? baseUrl})
+    : dio =
+          customDio ??
+          Dio(
+            BaseOptions(
+              baseUrl: baseUrl ?? ApiConfig.baseUrl,
+              connectTimeout: ApiConfig.connectTimeout,
+              receiveTimeout: ApiConfig.receiveTimeout,
+              headers: {'Accept': 'application/json'},
+            ),
+          ) {
     _setupInterceptors();
   }
 

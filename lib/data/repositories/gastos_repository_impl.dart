@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import '../../core/config/api_config.dart';
 import '../../core/errors/exceptions.dart';
 import '../../core/network/api_client.dart';
@@ -13,10 +14,7 @@ class GastosRepositoryImpl implements GastosRepository {
   final ApiClient apiClient;
   final GastosCacheService cacheService;
 
-  GastosRepositoryImpl({
-    required this.apiClient,
-    required this.cacheService,
-  });
+  GastosRepositoryImpl({required this.apiClient, required this.cacheService});
 
   @override
   Future<GastosListResult> getGastos({
@@ -26,10 +24,7 @@ class GastosRepositoryImpl implements GastosRepository {
     int? userId,
   }) async {
     try {
-      final queryParams = <String, dynamic>{
-        'skip': skip,
-        'limit': limit,
-      };
+      final queryParams = <String, dynamic>{'skip': skip, 'limit': limit};
       if (categoria != null && categoria.isNotEmpty && categoria != 'Todos') {
         queryParams['categoria'] = categoria;
       }
@@ -47,10 +42,13 @@ class GastosRepositoryImpl implements GastosRepository {
 
         // Extraer X-Total-Count del encabezado HTTP si está presente
         final headerCount = response.headers.value('x-total-count');
-        final totalCount = int.tryParse(headerCount ?? '') ?? (skip + list.length);
+        final totalCount =
+            int.tryParse(headerCount ?? '') ?? (skip + list.length);
 
         // Guardar en caché si es la primera página general
-        if (userId != null && skip == 0 && (categoria == null || categoria == 'Todos')) {
+        if (userId != null &&
+            skip == 0 &&
+            (categoria == null || categoria == 'Todos')) {
           await cacheService.saveGastos(userId: userId, gastos: list);
         }
 
@@ -62,7 +60,9 @@ class GastosRepositoryImpl implements GastosRepository {
         );
       }
 
-      throw const AppException('Formato inesperado al obtener lista de gastos.');
+      throw const AppException(
+        'Formato inesperado al obtener lista de gastos.',
+      );
     } on DioException catch (e) {
       final appException = parseDioError(e);
 
@@ -71,8 +71,16 @@ class GastosRepositoryImpl implements GastosRepository {
         final cached = await cacheService.getGastos(userId);
         final lastSync = await cacheService.getLastSync(userId);
         if (cached.isNotEmpty) {
-          final filtered = (categoria != null && categoria.isNotEmpty && categoria != 'Todos')
-              ? cached.where((g) => g.categoria.toLowerCase() == categoria.toLowerCase()).toList()
+          final filtered =
+              (categoria != null &&
+                  categoria.isNotEmpty &&
+                  categoria != 'Todos')
+              ? cached
+                    .where(
+                      (g) =>
+                          g.categoria.toLowerCase() == categoria.toLowerCase(),
+                    )
+                    .toList()
               : cached;
 
           return GastosListResult(
@@ -107,7 +115,9 @@ class GastosRepositoryImpl implements GastosRepository {
       if (data is Map<String, dynamic>) {
         return ResumenGastosModel.fromJson(data);
       }
-      throw const AppException('Respuesta inesperada al obtener resumen de gastos.');
+      throw const AppException(
+        'Respuesta inesperada al obtener resumen de gastos.',
+      );
     } on DioException catch (e) {
       throw parseDioError(e);
     } catch (e) {
@@ -119,7 +129,9 @@ class GastosRepositoryImpl implements GastosRepository {
   @override
   Future<CategoriasResponseModel> getCategorias() async {
     try {
-      final response = await apiClient.dio.get(ApiConfig.gastosCategoriasEndpoint);
+      final response = await apiClient.dio.get(
+        ApiConfig.gastosCategoriasEndpoint,
+      );
       final data = response.data;
       if (data is Map<String, dynamic>) {
         return CategoriasResponseModel.fromJson(data);

@@ -59,8 +59,8 @@ void main() {
               'loc': ['body', 'password'],
               'msg': 'String should have at least 8 characters',
               'type': 'string_too_short',
-            }
-          ]
+            },
+          ],
         },
       );
       final dioError = DioException(
@@ -69,7 +69,10 @@ void main() {
       );
 
       final appException = parseDioError(dioError);
-      expect(appException.message, contains('password: String should have at least 8 characters'));
+      expect(
+        appException.message,
+        contains('password: String should have at least 8 characters'),
+      );
       expect(appException.statusCode, 422);
     });
   });

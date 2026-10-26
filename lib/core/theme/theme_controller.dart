@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../storage/settings_service.dart';
 
 /// Controlador reactivo para alternar y persistir la preferencia de tema claro/oscuro.

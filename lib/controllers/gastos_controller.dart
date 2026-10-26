@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import '../core/errors/exceptions.dart';
 import '../data/models/gasto_model.dart';
 import '../data/models/resumen_gastos_model.dart';
@@ -36,10 +37,12 @@ class GastosController extends GetxController {
   final Rx<ResumenGastosModel?> resumen = Rx<ResumenGastosModel?>(null);
   final RxBool isLoadingResumen = false.obs;
 
-  bool get isEmpty => !isLoading.value && gastos.isEmpty && errorMessage.isEmpty;
+  bool get isEmpty =>
+      !isLoading.value && gastos.isEmpty && errorMessage.isEmpty;
   bool get hasError => errorMessage.isNotEmpty && gastos.isEmpty;
   bool get hasMoreItems => gastos.length < totalCount.value;
-  String get paginationLabel => 'Mostrando ${gastos.length} de ${totalCount.value} gastos';
+  String get paginationLabel =>
+      'Mostrando ${gastos.length} de ${totalCount.value} gastos';
 
   void clearError() {
     errorMessage.value = '';
@@ -93,7 +96,9 @@ class GastosController extends GetxController {
       final result = await gastosRepository.getGastos(
         skip: 0,
         limit: pageSize,
-        categoria: selectedCategoria.value == 'Todos' ? null : selectedCategoria.value,
+        categoria: selectedCategoria.value == 'Todos'
+            ? null
+            : selectedCategoria.value,
         userId: userId,
       );
 
@@ -124,21 +129,21 @@ class GastosController extends GetxController {
       final result = await gastosRepository.getGastos(
         skip: nextSkip,
         limit: pageSize,
-        categoria: selectedCategoria.value == 'Todos' ? null : selectedCategoria.value,
+        categoria: selectedCategoria.value == 'Todos'
+            ? null
+            : selectedCategoria.value,
         userId: userId,
       );
 
       // Evitar duplicados por id
       final existingIds = gastos.map((g) => g.id).toSet();
-      final newItems = result.gastos.where((g) => !existingIds.contains(g.id)).toList();
+      final newItems = result.gastos
+          .where((g) => !existingIds.contains(g.id))
+          .toList();
       gastos.addAll(newItems);
       totalCount.value = result.totalCount;
     } on AppException catch (e) {
-      Get.snackbar(
-        'Error',
-        e.message,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar('Error', e.message, snackPosition: SnackPosition.BOTTOM);
     } catch (_) {
       Get.snackbar(
         'Error',
@@ -236,10 +241,7 @@ class GastosController extends GetxController {
   }
 
   /// Elimina un gasto y refresca la lista y el resumen.
-  Future<bool> deleteGasto({
-    required int id,
-    int? userId,
-  }) async {
+  Future<bool> deleteGasto({required int id, int? userId}) async {
     if (isDeleting.value) return false;
 
     isDeleting.value = true;

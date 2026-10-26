@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/gasto_model.dart';
 
@@ -75,11 +76,16 @@ class GastoCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: isDark
                               ? AppTheme.primaryDarkBlue
-                              : AppTheme.primaryDarkBlue.withValues(alpha: 0.08),
+                              : AppTheme.primaryDarkBlue.withValues(
+                                  alpha: 0.08,
+                                ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -125,7 +131,9 @@ class GastoCard extends StatelessWidget {
             PopupMenuButton<String>(
               icon: Icon(
                 Icons.more_vert,
-                color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+                color: isDark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondaryLight,
               ),
               onSelected: (action) {
                 if (action == 'edit') {
@@ -149,7 +157,11 @@ class GastoCard extends StatelessWidget {
                   value: 'delete',
                   child: Row(
                     children: [
-                      Icon(Icons.delete_outline, size: 18, color: AppTheme.error),
+                      Icon(
+                        Icons.delete_outline,
+                        size: 18,
+                        color: AppTheme.error,
+                      ),
                       SizedBox(width: 8),
                       Text('Eliminar', style: TextStyle(color: AppTheme.error)),
                     ],

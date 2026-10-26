@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/auth_controller.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/validators.dart';
@@ -96,12 +97,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (error.isEmpty) return const SizedBox.shrink();
 
                       return Container(
-                        margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
+                        margin: const EdgeInsets.only(
+                          bottom: AppTheme.spacingMd,
+                        ),
                         padding: const EdgeInsets.all(AppTheme.spacingMd),
                         decoration: BoxDecoration(
                           color: AppTheme.errorBackground,
-                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                          border: Border.all(color: AppTheme.error.withValues(alpha: 0.3)),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusMd,
+                          ),
+                          border: Border.all(
+                            color: AppTheme.error.withValues(alpha: 0.3),
+                          ),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +143,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Correo electrónico',
                         hintText: 'ejemplo@correo.com',
-                        prefixIcon: Icon(Icons.email_outlined, color: AppTheme.textSecondary),
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: AppTheme.textSecondary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: AppTheme.spacingMd),
@@ -152,7 +162,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           labelText: 'Contraseña',
                           hintText: '••••••••',
-                          prefixIcon: const Icon(Icons.lock_outline, color: AppTheme.textSecondary),
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: AppTheme.textSecondary,
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               controller.obscurePassword.value
@@ -178,7 +191,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 22,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2.2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                 ),
                               )
                             : const Text('Iniciar Sesión'),

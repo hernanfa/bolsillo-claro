@@ -5,12 +5,20 @@ class AppTheme {
   AppTheme._();
 
   // Colores principales: Azul oscuro y Verde
-  static const Color primaryDarkBlue = Color(0xFF0D253F); // Azul marino profundo
-  static const Color secondaryDarkBlue = Color(0xFF1E3A5F); // Azul petróleo medio
-  static const Color accentGreen = Color(0xFF059669); // Verde esmeralda principal
+  static const Color primaryDarkBlue = Color(
+    0xFF0D253F,
+  ); // Azul marino profundo
+  static const Color secondaryDarkBlue = Color(
+    0xFF1E3A5F,
+  ); // Azul petróleo medio
+  static const Color accentGreen = Color(
+    0xFF059669,
+  ); // Verde esmeralda principal
   static const Color lightGreen = Color(0xFF10B981); // Verde menta brillante
   static const Color surfaceGreen = Color(0xFFE6F4EA); // Fondo sutil verde
-  static const Color darkSurfaceGreen = Color(0xFF064E3B); // Fondo sutil verde oscuro
+  static const Color darkSurfaceGreen = Color(
+    0xFF064E3B,
+  ); // Fondo sutil verde oscuro
 
   // Colores neutros - Modo Claro
   static const Color backgroundLight = Color(0xFFF8FAFC);
@@ -104,25 +112,22 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusMd),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: accentGreen,
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaceLight,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         labelStyle: const TextStyle(color: textSecondaryLight, fontSize: 14),
         hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
         border: OutlineInputBorder(
@@ -211,25 +216,22 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusMd),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: lightGreen,
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaceDark,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         labelStyle: const TextStyle(color: textSecondaryDark, fontSize: 14),
         hintStyle: const TextStyle(color: Color(0xFF64748B), fontSize: 14),
         border: OutlineInputBorder(

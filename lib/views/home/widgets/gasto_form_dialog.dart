@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/gastos_controller.dart';
 import '../../../core/theme/app_theme.dart';
@@ -39,13 +40,17 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
     final gastosController = Get.find<GastosController>();
     final initial = widget.initialGasto;
 
-    _descripcionController = TextEditingController(text: initial?.descripcion ?? '');
+    _descripcionController = TextEditingController(
+      text: initial?.descripcion ?? '',
+    );
     _montoController = TextEditingController(
       text: initial != null ? initial.monto.toStringAsFixed(2) : '',
     );
 
     // Lista de categorías sin 'Todos'
-    final validCategories = gastosController.categorias.where((c) => c != 'Todos').toList();
+    final validCategories = gastosController.categorias
+        .where((c) => c != 'Todos')
+        .toList();
     if (initial != null && validCategories.contains(initial.categoria)) {
       _selectedCategoria = initial.categoria;
     } else if (validCategories.isNotEmpty) {
@@ -135,7 +140,9 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
   Widget build(BuildContext context) {
     final gastosController = Get.find<GastosController>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final validCategories = gastosController.categorias.where((c) => c != 'Todos').toList();
+    final validCategories = gastosController.categorias
+        .where((c) => c != 'Todos')
+        .toList();
 
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -160,7 +167,9 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppTheme.lightGreen : AppTheme.primaryDarkBlue,
+                          color: isDark
+                              ? AppTheme.lightGreen
+                              : AppTheme.primaryDarkBlue,
                         ),
                       ),
                       IconButton(
@@ -183,9 +192,13 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
                       margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
                       padding: const EdgeInsets.all(AppTheme.spacingMd),
                       decoration: BoxDecoration(
-                        color: isDark ? AppTheme.errorBackgroundDark : AppTheme.errorBackground,
+                        color: isDark
+                            ? AppTheme.errorBackgroundDark
+                            : AppTheme.errorBackground,
                         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                        border: Border.all(color: AppTheme.error.withValues(alpha: 0.4)),
+                        border: Border.all(
+                          color: AppTheme.error.withValues(alpha: 0.4),
+                        ),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +241,9 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
                   TextFormField(
                     controller: _montoController,
                     validator: Validators.validateGastoMonto,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
                       labelText: 'Monto (\$) *',
@@ -242,11 +257,14 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
                   DropdownButtonFormField<String>(
                     initialValue: validCategories.contains(_selectedCategoria)
                         ? _selectedCategoria
-                        : (validCategories.isNotEmpty ? validCategories.first : null),
+                        : (validCategories.isNotEmpty
+                              ? validCategories.first
+                              : null),
                     validator: Validators.validateGastoCategoria,
                     decoration: InputDecoration(
                       labelText: 'Categoría',
-                      helperText: 'Límite por categoría: \$${gastosController.limitePorCategoria.value.toStringAsFixed(0)}',
+                      helperText:
+                          'Límite por categoría: \$${gastosController.limitePorCategoria.value.toStringAsFixed(0)}',
                       prefixIcon: const Icon(Icons.category_outlined),
                     ),
                     items: validCategories.map((c) {
@@ -294,10 +312,16 @@ class _GastoFormDialogState extends State<GastoFormDialog> {
                               height: 22,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2.2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
                               ),
                             )
-                          : Text(_isEditing ? 'Guardar Cambios' : 'Registrar Gasto'),
+                          : Text(
+                              _isEditing
+                                  ? 'Guardar Cambios'
+                                  : 'Registrar Gasto',
+                            ),
                     );
                   }),
                 ],

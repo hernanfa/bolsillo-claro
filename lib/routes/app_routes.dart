@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import '../views/auth/login_screen.dart';
 import '../views/auth/register_screen.dart';
 import '../views/home/home_screen.dart';
@@ -14,10 +15,7 @@ class AppRoutes {
   static const String home = '/home';
 
   static final List<GetPage> pages = [
-    GetPage(
-      name: splash,
-      page: () => const SplashScreen(),
-    ),
+    GetPage(name: splash, page: () => const SplashScreen()),
     GetPage(
       name: login,
       page: () => const LoginScreen(),

@@ -88,7 +88,9 @@ class MockGastosRepository implements GastosRepository {
 
     var list = List<GastoModel>.from(gastosToReturn);
     if (categoria != null && categoria.isNotEmpty && categoria != 'Todos') {
-      list = list.where((g) => g.categoria.toLowerCase() == categoria.toLowerCase()).toList();
+      list = list
+          .where((g) => g.categoria.toLowerCase() == categoria.toLowerCase())
+          .toList();
     }
 
     return GastosListResult(

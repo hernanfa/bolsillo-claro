@@ -4,21 +4,45 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Validators - Email', () {
     test('retorna error cuando el correo es nulo o vacío', () {
-      expect(Validators.validateEmail(null), 'El correo electrónico es requerido.');
-      expect(Validators.validateEmail(''), 'El correo electrónico es requerido.');
-      expect(Validators.validateEmail('   '), 'El correo electrónico es requerido.');
+      expect(
+        Validators.validateEmail(null),
+        'El correo electrónico es requerido.',
+      );
+      expect(
+        Validators.validateEmail(''),
+        'El correo electrónico es requerido.',
+      );
+      expect(
+        Validators.validateEmail('   '),
+        'El correo electrónico es requerido.',
+      );
     });
 
     test('retorna error cuando el formato de correo no es válido', () {
-      expect(Validators.validateEmail('correo_sin_arroba.com'), 'Ingresa un correo electrónico válido.');
-      expect(Validators.validateEmail('correo@dominio'), 'Ingresa un correo electrónico válido.');
-      expect(Validators.validateEmail('@dominio.com'), 'Ingresa un correo electrónico válido.');
-      expect(Validators.validateEmail('correo@.com'), 'Ingresa un correo electrónico válido.');
+      expect(
+        Validators.validateEmail('correo_sin_arroba.com'),
+        'Ingresa un correo electrónico válido.',
+      );
+      expect(
+        Validators.validateEmail('correo@dominio'),
+        'Ingresa un correo electrónico válido.',
+      );
+      expect(
+        Validators.validateEmail('@dominio.com'),
+        'Ingresa un correo electrónico válido.',
+      );
+      expect(
+        Validators.validateEmail('correo@.com'),
+        'Ingresa un correo electrónico válido.',
+      );
     });
 
     test('retorna null cuando el correo es válido', () {
       expect(Validators.validateEmail('usuario@empresa.com'), isNull);
-      expect(Validators.validateEmail('test.usuario+1@sub.dominio.org'), isNull);
+      expect(
+        Validators.validateEmail('test.usuario+1@sub.dominio.org'),
+        isNull,
+      );
     });
   });
 
@@ -67,7 +91,10 @@ void main() {
 
     test('retorna null cuando las contraseñas coinciden exactamente', () {
       expect(
-        Validators.validateConfirmPassword('miClaveSegura123', 'miClaveSegura123'),
+        Validators.validateConfirmPassword(
+          'miClaveSegura123',
+          'miClaveSegura123',
+        ),
         isNull,
       );
     });

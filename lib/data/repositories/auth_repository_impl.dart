@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import '../../core/config/api_config.dart';
 import '../../core/errors/exceptions.dart';
 import '../../core/network/api_client.dart';
@@ -20,10 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await apiClient.dio.post(
         ApiConfig.registerEndpoint,
-        data: {
-          'email': email.trim(),
-          'password': password,
-        },
+        data: {'email': email.trim(), 'password': password},
       );
 
       final data = response.data;
@@ -47,13 +45,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await apiClient.dio.post(
         ApiConfig.loginEndpoint,
-        data: {
-          'username': email.trim(),
-          'password': password,
-        },
-        options: Options(
-          contentType: Headers.formUrlEncodedContentType,
-        ),
+        data: {'username': email.trim(), 'password': password},
+        options: Options(contentType: Headers.formUrlEncodedContentType),
       );
 
       final data = response.data;
@@ -74,11 +67,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await apiClient.dio.get(
         ApiConfig.meEndpoint,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       final data = response.data;

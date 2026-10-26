@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/auth_controller.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/validators.dart';
@@ -91,12 +92,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (error.isEmpty) return const SizedBox.shrink();
 
                       return Container(
-                        margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
+                        margin: const EdgeInsets.only(
+                          bottom: AppTheme.spacingMd,
+                        ),
                         padding: const EdgeInsets.all(AppTheme.spacingMd),
                         decoration: BoxDecoration(
                           color: AppTheme.errorBackground,
-                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                          border: Border.all(color: AppTheme.error.withValues(alpha: 0.3)),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusMd,
+                          ),
+                          border: Border.all(
+                            color: AppTheme.error.withValues(alpha: 0.3),
+                          ),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +138,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Correo electrónico',
                         hintText: 'ejemplo@correo.com',
-                        prefixIcon: Icon(Icons.email_outlined, color: AppTheme.textSecondary),
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: AppTheme.textSecondary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: AppTheme.spacingMd),
@@ -146,7 +156,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         decoration: InputDecoration(
                           labelText: 'Contraseña (mínimo 8 caracteres)',
                           hintText: '••••••••',
-                          prefixIcon: const Icon(Icons.lock_outline, color: AppTheme.textSecondary),
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: AppTheme.textSecondary,
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               controller.obscurePassword.value
@@ -168,14 +181,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscureText: controller.obscureConfirmPassword.value,
                         textInputAction: TextInputAction.done,
                         onFieldSubmitted: (_) => _submit(),
-                        validator: (value) => Validators.validateConfirmPassword(
-                          value,
-                          _passwordController.text,
-                        ),
+                        validator: (value) =>
+                            Validators.validateConfirmPassword(
+                              value,
+                              _passwordController.text,
+                            ),
                         decoration: InputDecoration(
                           labelText: 'Confirmar contraseña',
                           hintText: '••••••••',
-                          prefixIcon: const Icon(Icons.lock_reset_outlined, color: AppTheme.textSecondary),
+                          prefixIcon: const Icon(
+                            Icons.lock_reset_outlined,
+                            color: AppTheme.textSecondary,
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               controller.obscureConfirmPassword.value
@@ -183,7 +200,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   : Icons.visibility_off_outlined,
                               color: AppTheme.textSecondary,
                             ),
-                            onPressed: controller.toggleConfirmPasswordVisibility,
+                            onPressed:
+                                controller.toggleConfirmPasswordVisibility,
                           ),
                         ),
                       ),
@@ -201,7 +219,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 22,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2.2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                 ),
                               )
                             : const Text('Registrarme'),

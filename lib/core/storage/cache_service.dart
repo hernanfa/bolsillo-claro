@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import '../../data/models/gasto_model.dart';
 
 /// Contrato para el almacenamiento local y caché de gastos por usuario.
@@ -54,7 +55,10 @@ class HiveGastosCacheService implements GastosCacheService {
     final rawList = box.get(_keyGastos);
     if (rawList is List) {
       return rawList
-          .map((item) => GastoModel.fromJson(Map<String, dynamic>.from(item as Map)))
+          .map(
+            (item) =>
+                GastoModel.fromJson(Map<String, dynamic>.from(item as Map)),
+          )
           .toList();
     }
     return [];

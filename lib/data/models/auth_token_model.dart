@@ -3,10 +3,7 @@ class AuthTokenModel {
   final String accessToken;
   final String tokenType;
 
-  const AuthTokenModel({
-    required this.accessToken,
-    required this.tokenType,
-  });
+  const AuthTokenModel({required this.accessToken, required this.tokenType});
 
   factory AuthTokenModel.fromJson(Map<String, dynamic> json) {
     return AuthTokenModel(
@@ -16,10 +13,7 @@ class AuthTokenModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'access_token': accessToken,
-      'token_type': tokenType,
-    };
+    return {'access_token': accessToken, 'token_type': tokenType};
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/assistant_controller.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -47,12 +48,12 @@ class _AssistantViewState extends State<AssistantView> {
           Container(
             padding: const EdgeInsets.all(AppTheme.spacingMd),
             decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xFF0F2B48)
-                  : const Color(0xFFEBF5FF),
+              color: isDark ? const Color(0xFF0F2B48) : const Color(0xFFEBF5FF),
               borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               border: Border.all(
-                color: isDark ? AppTheme.accentGreen.withValues(alpha: 0.3) : const Color(0xFF93C5FD),
+                color: isDark
+                    ? AppTheme.accentGreen.withValues(alpha: 0.3)
+                    : const Color(0xFF93C5FD),
               ),
             ),
             child: Row(
@@ -60,7 +61,9 @@ class _AssistantViewState extends State<AssistantView> {
               children: [
                 Icon(
                   Icons.auto_awesome_rounded,
-                  color: isDark ? AppTheme.lightGreen : AppTheme.secondaryDarkBlue,
+                  color: isDark
+                      ? AppTheme.lightGreen
+                      : AppTheme.secondaryDarkBlue,
                   size: 22,
                 ),
                 const SizedBox(width: AppTheme.spacingSm),
@@ -69,7 +72,9 @@ class _AssistantViewState extends State<AssistantView> {
                     'Aviso: Las respuestas y sugerencias son generadas por Inteligencia Artificial con fines informativos y de orientación personal.',
                     style: TextStyle(
                       fontSize: 12,
-                      color: isDark ? const Color(0xFFE2E8F0) : const Color(0xFF1E3A8A),
+                      color: isDark
+                          ? const Color(0xFFE2E8F0)
+                          : const Color(0xFF1E3A8A),
                       height: 1.35,
                     ),
                   ),
@@ -92,7 +97,9 @@ class _AssistantViewState extends State<AssistantView> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppTheme.lightGreen : AppTheme.primaryDarkBlue,
+                      color: isDark
+                          ? AppTheme.lightGreen
+                          : AppTheme.primaryDarkBlue,
                     ),
                   ),
                   const SizedBox(height: AppTheme.spacingSm),
@@ -124,14 +131,18 @@ class _AssistantViewState extends State<AssistantView> {
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(140, 46),
                           ),
-                          onPressed: isLoading ? null : () => _enviarConsulta(controller),
+                          onPressed: isLoading
+                              ? null
+                              : () => _enviarConsulta(controller),
                           icon: isLoading
                               ? const SizedBox(
                                   width: 18,
                                   height: 18,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 )
                               : const Icon(Icons.send_rounded, size: 18),
@@ -153,7 +164,9 @@ class _AssistantViewState extends State<AssistantView> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+              color: isDark
+                  ? AppTheme.textSecondaryDark
+                  : AppTheme.textSecondaryLight,
             ),
           ),
           const SizedBox(height: AppTheme.spacingSm),
@@ -162,9 +175,13 @@ class _AssistantViewState extends State<AssistantView> {
             runSpacing: 8,
             children: controller.preguntasSugeridas.map((sug) {
               return ActionChip(
-                backgroundColor: isDark ? AppTheme.surfaceDark : AppTheme.surfaceLight,
+                backgroundColor: isDark
+                    ? AppTheme.surfaceDark
+                    : AppTheme.surfaceLight,
                 side: BorderSide(
-                  color: isDark ? AppTheme.cardBorderDark : AppTheme.cardBorderLight,
+                  color: isDark
+                      ? AppTheme.cardBorderDark
+                      : AppTheme.cardBorderLight,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -178,7 +195,9 @@ class _AssistantViewState extends State<AssistantView> {
                   sug,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight,
+                    color: isDark
+                        ? AppTheme.textPrimaryDark
+                        : AppTheme.textPrimaryLight,
                   ),
                 ),
                 onPressed: () {
@@ -214,7 +233,9 @@ class _AssistantViewState extends State<AssistantView> {
                         'Generando recomendaciones de ahorro personalizadas.',
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+                          color: isDark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondaryLight,
                         ),
                       ),
                     ],
@@ -226,10 +247,14 @@ class _AssistantViewState extends State<AssistantView> {
             // 2. Estado de Error
             if (controller.hasError) {
               return Card(
-                color: isDark ? AppTheme.errorBackgroundDark : AppTheme.errorBackground,
+                color: isDark
+                    ? AppTheme.errorBackgroundDark
+                    : AppTheme.errorBackground,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                  side: BorderSide(color: AppTheme.error.withValues(alpha: 0.4)),
+                  side: BorderSide(
+                    color: AppTheme.error.withValues(alpha: 0.4),
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(AppTheme.spacingLg),
@@ -280,7 +305,9 @@ class _AssistantViewState extends State<AssistantView> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: isDark ? AppTheme.darkSurfaceGreen : AppTheme.surfaceGreen,
+                              color: isDark
+                                  ? AppTheme.darkSurfaceGreen
+                                  : AppTheme.surfaceGreen,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -302,10 +329,7 @@ class _AssistantViewState extends State<AssistantView> {
                       const Divider(height: 24),
                       SelectableText(
                         controller.respuesta.value,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          height: 1.5,
-                        ),
+                        style: const TextStyle(fontSize: 14, height: 1.5),
                       ),
                     ],
                   ),
@@ -322,7 +346,9 @@ class _AssistantViewState extends State<AssistantView> {
                     Icon(
                       Icons.lightbulb_outline_rounded,
                       size: 48,
-                      color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+                      color: isDark
+                          ? AppTheme.textSecondaryDark
+                          : AppTheme.textSecondaryLight,
                     ),
                     const SizedBox(height: AppTheme.spacingSm),
                     const Text(
@@ -338,7 +364,9 @@ class _AssistantViewState extends State<AssistantView> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
-                        color: isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight,
+                        color: isDark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondaryLight,
                       ),
                     ),
                   ],

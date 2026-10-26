@@ -21,10 +21,8 @@ class SecureStorageServiceImpl implements StorageService {
   final FlutterSecureStorage _storage;
 
   SecureStorageServiceImpl({FlutterSecureStorage? storage})
-      : _storage = storage ??
-            const FlutterSecureStorage(
-              aOptions: AndroidOptions(),
-            );
+    : _storage =
+          storage ?? const FlutterSecureStorage(aOptions: AndroidOptions());
 
   @override
   Future<void> saveToken(String token) async {

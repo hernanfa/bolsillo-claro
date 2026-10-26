@@ -4,6 +4,7 @@ import 'package:bolsillo_claro/views/auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+
 import '../mocks/mock_auth_dependencies.dart';
 
 void main() {
@@ -27,14 +28,13 @@ void main() {
   });
 
   Widget createTestWidget(Widget child) {
-    return GetMaterialApp(
-      theme: AppTheme.lightTheme,
-      home: child,
-    );
+    return GetMaterialApp(theme: AppTheme.lightTheme, home: child);
   }
 
   group('Widget Tests - RegisterScreen', () {
-    testWidgets('renderiza formulario de registro con campos y botón', (tester) async {
+    testWidgets('renderiza formulario de registro con campos y botón', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget(const RegisterScreen()));
       await tester.pumpAndSettle();
 
@@ -47,7 +47,9 @@ void main() {
       expect(find.text('Inicia sesión'), findsOneWidget);
     });
 
-    testWidgets('valida campos obligatorios y contraseñas no coincidentes', (tester) async {
+    testWidgets('valida campos obligatorios y contraseñas no coincidentes', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget(const RegisterScreen()));
       await tester.pumpAndSettle();
 
@@ -61,14 +63,17 @@ void main() {
       expect(mockAuthRepository.registerCallCount, 0);
     });
 
-    testWidgets('muestra mensaje de error cuando controller tiene errorMessage', (tester) async {
-      controller.errorMessage.value = 'El email ya está registrado';
+    testWidgets(
+      'muestra mensaje de error cuando controller tiene errorMessage',
+      (tester) async {
+        controller.errorMessage.value = 'El email ya está registrado';
 
-      await tester.pumpWidget(createTestWidget(const RegisterScreen()));
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(createTestWidget(const RegisterScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('El email ya está registrado'), findsOneWidget);
-      expect(find.byIcon(Icons.error_outline_rounded), findsOneWidget);
-    });
+        expect(find.text('El email ya está registrado'), findsOneWidget);
+        expect(find.byIcon(Icons.error_outline_rounded), findsOneWidget);
+      },
+    );
   });
 }

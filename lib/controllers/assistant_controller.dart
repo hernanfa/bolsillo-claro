@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import '../core/errors/exceptions.dart';
 import '../data/models/resumen_gastos_model.dart';
 import '../data/repositories/gastos_repository.dart';
@@ -29,7 +30,8 @@ class AssistantController extends GetxController {
     '¿Qué recomendaciones de ahorro tienes según mis totales?',
   ];
 
-  bool get isEmpty => !isLoading.value && respuesta.isEmpty && errorMessage.isEmpty;
+  bool get isEmpty =>
+      !isLoading.value && respuesta.isEmpty && errorMessage.isEmpty;
   bool get hasResponse => !isLoading.value && respuesta.isNotEmpty;
   bool get hasError => !isLoading.value && errorMessage.isNotEmpty;
 
@@ -48,12 +50,14 @@ class AssistantController extends GetxController {
     final texto = (preguntaPersonalizada ?? preguntaActual.value).trim();
 
     if (texto.isEmpty) {
-      errorMessage.value = 'Por favor escribe una pregunta para consultar al asistente.';
+      errorMessage.value =
+          'Por favor escribe una pregunta para consultar al asistente.';
       return;
     }
 
     if (texto.length > 500) {
-      errorMessage.value = 'La pregunta supera el límite permitido de 500 caracteres.';
+      errorMessage.value =
+          'La pregunta supera el límite permitido de 500 caracteres.';
       return;
     }
 
@@ -67,8 +71,7 @@ class AssistantController extends GetxController {
     try {
       resumenActual = await gastosRepository.getResumen();
     } catch (_) {
-      errorMessage.value =
-          'No se pudo obtener el resumen actual de gastos del servidor. Verifica tu conexión y que el backend esté activo.';
+      errorMessage.value = 'No se pudo obtener el resumen actual de gastos del servidor. Verifica tu conexión y que el backend esté activo.';
       isLoading.value = false;
       return;
     }
@@ -83,7 +86,8 @@ class AssistantController extends GetxController {
     } on AppException catch (e) {
       errorMessage.value = e.message;
     } catch (_) {
-      errorMessage.value = 'Ocurrió un error inesperado al procesar la respuesta de la IA.';
+      errorMessage.value =
+          'Ocurrió un error inesperado al procesar la respuesta de la IA.';
     } finally {
       isLoading.value = false;
     }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import '../core/errors/exceptions.dart';
 import '../core/storage/storage_service.dart';
 import '../data/models/user_model.dart';
@@ -84,10 +85,7 @@ class AuthController extends GetxController {
   }
 
   /// Inicia sesión con el correo y contraseña provistos.
-  Future<bool> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> login({required String email, required String password}) async {
     isLoading.value = true;
     errorMessage.value = '';
 
@@ -127,10 +125,7 @@ class AuthController extends GetxController {
 
     try {
       // 1. Registrar usuario
-      await authRepository.register(
-        email: email,
-        password: password,
-      );
+      await authRepository.register(email: email, password: password);
 
       // 2. Iniciar sesión automáticamente
       final token = await authRepository.login(

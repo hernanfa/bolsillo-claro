@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/auth_controller.dart';
 import '../../controllers/gastos_controller.dart';
 import '../../core/theme/app_theme.dart';
@@ -126,7 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
           // Alternar tema claro / oscuro
           Obx(
             () => IconButton(
-              tooltip: themeController.isDarkMode ? 'Modo Claro' : 'Modo Oscuro',
+              tooltip: themeController.isDarkMode
+                  ? 'Modo Claro'
+                  : 'Modo Oscuro',
               icon: Icon(
                 themeController.isDarkMode
                     ? Icons.light_mode_rounded
@@ -145,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: _currentTab == 0
           ? FloatingActionButton.extended(
-              backgroundColor: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
+              backgroundColor: isDark
+                  ? AppTheme.lightGreen
+                  : AppTheme.accentGreen,
               foregroundColor: isDark ? const Color(0xFF0A192F) : Colors.white,
               icon: const Icon(Icons.add_rounded),
               label: const Text(
@@ -179,355 +184,382 @@ class _HomeScreenState extends State<HomeScreen> {
         child: _currentTab == 0
             ? RefreshIndicator(
                 color: AppTheme.accentGreen,
-          onRefresh: () async {
-            final userId = authController.currentUser.value?.id;
-            await Future.wait([
-              gastosController.fetchGastos(refresh: true, userId: userId),
-              gastosController.fetchResumen(),
-            ]);
-          },
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              // Encabezado con correo del usuario
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppTheme.spacingLg,
-                    AppTheme.spacingMd,
-                    AppTheme.spacingLg,
-                    AppTheme.spacingSm,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Control de Gastos',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Obx(() {
-                            final email = authController.currentUser.value?.email ?? '';
-                            return Text(
-                              email,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: isDark
-                                    ? AppTheme.textSecondaryDark
-                                    : AppTheme.textSecondaryLight,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: isDark ? AppTheme.darkSurfaceGreen : AppTheme.surfaceGreen,
-                          borderRadius: BorderRadius.circular(16),
+                onRefresh: () async {
+                  final userId = authController.currentUser.value?.id;
+                  await Future.wait([
+                    gastosController.fetchGastos(refresh: true, userId: userId),
+                    gastosController.fetchResumen(),
+                  ]);
+                },
+                child: CustomScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    // Encabezado con correo del usuario
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppTheme.spacingLg,
+                          AppTheme.spacingMd,
+                          AppTheme.spacingLg,
+                          AppTheme.spacingSm,
                         ),
                         child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Activo',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Aviso de datos en caché / última sincronización
-              SliverToBoxAdapter(
-                child: Obx(() {
-                  if (!gastosController.isFromCache.value) {
-                    return const SizedBox.shrink();
-                  }
-                  final syncDate = gastosController.lastSync.value;
-                  final formattedDate = syncDate != null ? _formatDateTime(syncDate) : 'Reciente';
-
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: AppTheme.spacingLg,
-                      vertical: AppTheme.spacingSm,
-                    ),
-                    padding: const EdgeInsets.all(AppTheme.spacingMd),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? const Color(0xFF3B2807)
-                          : const Color(0xFFFEF3C7),
-                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                      border: Border.all(
-                        color: const Color(0xFFF59E0B).withValues(alpha: 0.4),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.cloud_off_rounded,
-                          color: Color(0xFFD97706),
-                          size: 22,
-                        ),
-                        const SizedBox(width: AppTheme.spacingSm),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Modo sin conexión • Datos en caché',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFB45309),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Control de Gastos',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Última sincronización: $formattedDate',
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  color: Color(0xFF92400E),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-
-              // Resumen Consolidado (/gastos/resumen)
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppTheme.spacingLg,
-                    vertical: AppTheme.spacingSm,
-                  ),
-                  child: GastosResumenCard(),
-                ),
-              ),
-
-              // Barra de filtros por categoría
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppTheme.spacingSm),
-                  child: CategoriaFilterBar(),
-                ),
-              ),
-
-              // Estados principales de la lista: Carga, Error, Vacío o Lista con Paginación
-              Obx(() {
-                final userId = authController.currentUser.value?.id;
-
-                // 1. Estado de carga inicial
-                if (gastosController.isLoading.value) {
-                  return const SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-
-                // 2. Estado de error
-                if (gastosController.hasError) {
-                  return SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppTheme.spacingLg),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                                Obx(() {
+                                  final email =
+                                      authController.currentUser.value?.email ??
+                                      '';
+                                  return Text(
+                                    email,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: isDark
+                                          ? AppTheme.textSecondaryDark
+                                          : AppTheme.textSecondaryLight,
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
                             Container(
-                              padding: const EdgeInsets.all(16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: isDark
-                                    ? AppTheme.errorBackgroundDark
-                                    : AppTheme.errorBackground,
-                                shape: BoxShape.circle,
+                                    ? AppTheme.darkSurfaceGreen
+                                    : AppTheme.surfaceGreen,
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              child: const Icon(
-                                Icons.error_outline_rounded,
-                                color: AppTheme.error,
-                                size: 40,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: BoxDecoration(
+                                      color: isDark
+                                          ? AppTheme.lightGreen
+                                          : AppTheme.accentGreen,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    'Activo',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: isDark
+                                          ? AppTheme.lightGreen
+                                          : AppTheme.accentGreen,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(height: AppTheme.spacingMd),
-                            Text(
-                              gastosController.errorMessage.value,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: AppTheme.error,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: AppTheme.spacingLg),
-                            ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(160, 44),
-                              ),
-                              icon: const Icon(Icons.refresh_rounded),
-                              label: const Text('Reintentar'),
-                              onPressed: () {
-                                gastosController.fetchGastos(
-                                  refresh: true,
-                                  userId: userId,
-                                );
-                                gastosController.fetchResumen();
-                              },
                             ),
                           ],
                         ),
                       ),
                     ),
-                  );
-                }
 
-                // 3. Estado vacío
-                if (gastosController.isEmpty) {
-                  return SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppTheme.spacingLg),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.savings_outlined,
-                              size: 64,
-                              color: isDark
-                                  ? AppTheme.textSecondaryDark
-                                  : AppTheme.textSecondaryLight,
-                            ),
-                            const SizedBox(height: AppTheme.spacingMd),
-                            const Text(
-                              'No tienes gastos registrados',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: AppTheme.spacingXs),
-                            Text(
-                              gastosController.selectedCategoria.value == 'Todos'
-                                  ? 'Comienza a organizar tus finanzas registrando tu primer gasto.'
-                                  : 'No hay gastos para la categoría "${gastosController.selectedCategoria.value}".',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: isDark
-                                    ? AppTheme.textSecondaryDark
-                                    : AppTheme.textSecondaryLight,
-                              ),
-                            ),
-                            const SizedBox(height: AppTheme.spacingLg),
-                            ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(180, 44),
-                              ),
-                              icon: const Icon(Icons.add_rounded),
-                              label: const Text('Registrar Gasto'),
-                              onPressed: () => GastoFormDialog.show(context),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }
-
-                // 4. Lista de gastos con paginación
-                final gastosList = gastosController.gastos;
-
-                return SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingLg),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        // Elementos de la lista
-                        if (index < gastosList.length) {
-                          final gasto = gastosList[index];
-                          return GastoCard(
-                            gasto: gasto,
-                            onEdit: () => GastoFormDialog.show(context, gasto: gasto),
-                            onDelete: () => _confirmDelete(context, gasto),
-                          );
+                    // Aviso de datos en caché / última sincronización
+                    SliverToBoxAdapter(
+                      child: Obx(() {
+                        if (!gastosController.isFromCache.value) {
+                          return const SizedBox.shrink();
                         }
+                        final syncDate = gastosController.lastSync.value;
+                        final formattedDate = syncDate != null
+                            ? _formatDateTime(syncDate)
+                            : 'Reciente';
 
-                        // Pie de lista con paginación
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: AppTheme.spacingLg,
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: AppTheme.spacingLg,
+                            vertical: AppTheme.spacingSm,
                           ),
-                          child: Column(
+                          padding: const EdgeInsets.all(AppTheme.spacingMd),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? const Color(0xFF3B2807)
+                                : const Color(0xFFFEF3C7),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusMd,
+                            ),
+                            border: Border.all(
+                              color: const Color(0xFFF59E0B)
+                                  .withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: Row(
                             children: [
-                              Text(
-                                gastosController.paginationLabel,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: isDark
-                                      ? AppTheme.textSecondaryDark
-                                      : AppTheme.textSecondaryLight,
+                              const Icon(
+                                Icons.cloud_off_rounded,
+                                color: Color(0xFFD97706),
+                                size: 22,
+                              ),
+                              const SizedBox(width: AppTheme.spacingSm),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Modo sin conexión • Datos en caché',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFFB45309),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Última sincronización: $formattedDate',
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Color(0xFF92400E),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: AppTheme.spacingSm),
-                              if (gastosController.hasMoreItems)
-                                Obx(
-                                  () => gastosController.isLoadingMore.value
-                                      ? const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2.5,
-                                          ),
-                                        )
-                                      : OutlinedButton.icon(
-                                          icon: const Icon(Icons.expand_more_rounded),
-                                          label: const Text('Cargar más gastos'),
-                                          onPressed: () =>
-                                              gastosController.loadMoreGastos(userId),
-                                        ),
-                                ),
-                              const SizedBox(height: 60), // Margen para el FAB
                             ],
                           ),
                         );
-                      },
-                      childCount: gastosList.length + 1,
+                      }),
                     ),
-                  ),
-                );
-              }),
-            ],
-          ),
-        )
-      : const AssistantView(),
-    ),
+
+                    // Resumen Consolidado (/gastos/resumen)
+                    const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppTheme.spacingLg,
+                          vertical: AppTheme.spacingSm,
+                        ),
+                        child: GastosResumenCard(),
+                      ),
+                    ),
+
+                    // Barra de filtros por categoría
+                    const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppTheme.spacingSm,
+                        ),
+                        child: CategoriaFilterBar(),
+                      ),
+                    ),
+
+                    // Estados principales de la lista: Carga, Error, Vacío o Lista con Paginación
+                    Obx(() {
+                      final userId = authController.currentUser.value?.id;
+
+                      // 1. Estado de carga inicial
+                      if (gastosController.isLoading.value) {
+                        return const SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
+                      // 2. Estado de error
+                      if (gastosController.hasError) {
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(AppTheme.spacingLg),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: isDark
+                                          ? AppTheme.errorBackgroundDark
+                                          : AppTheme.errorBackground,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.error_outline_rounded,
+                                      color: AppTheme.error,
+                                      size: 40,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppTheme.spacingMd),
+                                  Text(
+                                    gastosController.errorMessage.value,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: AppTheme.error,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppTheme.spacingLg),
+                                  ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: const Size(160, 44),
+                                    ),
+                                    icon: const Icon(Icons.refresh_rounded),
+                                    label: const Text('Reintentar'),
+                                    onPressed: () {
+                                      gastosController.fetchGastos(
+                                        refresh: true,
+                                        userId: userId,
+                                      );
+                                      gastosController.fetchResumen();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      // 3. Estado vacío
+                      if (gastosController.isEmpty) {
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(AppTheme.spacingLg),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.savings_outlined,
+                                    size: 64,
+                                    color: isDark
+                                        ? AppTheme.textSecondaryDark
+                                        : AppTheme.textSecondaryLight,
+                                  ),
+                                  const SizedBox(height: AppTheme.spacingMd),
+                                  const Text(
+                                    'No tienes gastos registrados',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppTheme.spacingXs),
+                                  Text(
+                                    gastosController.selectedCategoria.value ==
+                                            'Todos'
+                                        ? 'Comienza a organizar tus finanzas registrando tu primer gasto.'
+                                        : 'No hay gastos para la categoría "${gastosController.selectedCategoria.value}".',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: isDark
+                                          ? AppTheme.textSecondaryDark
+                                          : AppTheme.textSecondaryLight,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppTheme.spacingLg),
+                                  ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: const Size(180, 44),
+                                    ),
+                                    icon: const Icon(Icons.add_rounded),
+                                    label: const Text('Registrar Gasto'),
+                                    onPressed: () =>
+                                        GastoFormDialog.show(context),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      // 4. Lista de gastos con paginación
+                      final gastosList = gastosController.gastos;
+
+                      return SliverPadding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppTheme.spacingLg,
+                        ),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate((
+                            context,
+                            index,
+                          ) {
+                            // Elementos de la lista
+                            if (index < gastosList.length) {
+                              final gasto = gastosList[index];
+                              return GastoCard(
+                                gasto: gasto,
+                                onEdit: () =>
+                                    GastoFormDialog.show(context, gasto: gasto),
+                                onDelete: () => _confirmDelete(context, gasto),
+                              );
+                            }
+
+                            // Pie de lista con paginación
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: AppTheme.spacingLg,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    gastosController.paginationLabel,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isDark
+                                          ? AppTheme.textSecondaryDark
+                                          : AppTheme.textSecondaryLight,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppTheme.spacingSm),
+                                  if (gastosController.hasMoreItems)
+                                    Obx(
+                                      () => gastosController.isLoadingMore.value
+                                          ? const Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2.5,
+                                              ),
+                                            )
+                                          : OutlinedButton.icon(
+                                              icon: const Icon(
+                                                Icons.expand_more_rounded,
+                                              ),
+                                              label: const Text(
+                                                'Cargar más gastos',
+                                              ),
+                                              onPressed: () => gastosController
+                                                  .loadMoreGastos(userId),
+                                            ),
+                                    ),
+                                  const SizedBox(
+                                    height: 60,
+                                  ), // Margen para el FAB
+                                ],
+                              ),
+                            );
+                          }, childCount: gastosList.length + 1),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              )
+            : const AssistantView(),
+      ),
     );
   }
 }
