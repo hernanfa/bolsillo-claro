@@ -1,3 +1,4 @@
+import 'package:bolsillo_claro/controllers/assistant_controller.dart';
 import 'package:bolsillo_claro/controllers/auth_controller.dart';
 import 'package:bolsillo_claro/controllers/gastos_controller.dart';
 import 'package:bolsillo_claro/core/errors/exceptions.dart';
@@ -11,6 +12,7 @@ import 'package:bolsillo_claro/views/home/widgets/gasto_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import '../mocks/mock_assistant_dependencies.dart';
 import '../mocks/mock_auth_dependencies.dart';
 import '../mocks/mock_gastos_dependencies.dart';
 
@@ -19,9 +21,11 @@ void main() {
   late FakeStorageService fakeStorage;
   late MockGastosRepository mockGastosRepo;
   late FakeSettingsStorageService fakeSettings;
+  late MockAssistantService mockAssistantService;
   late AuthController authController;
   late GastosController gastosController;
   late ThemeController themeController;
+  late AssistantController assistantController;
 
   setUp(() {
     Get.testMode = true;
@@ -29,9 +33,14 @@ void main() {
     fakeStorage = FakeStorageService();
     mockGastosRepo = MockGastosRepository();
     fakeSettings = FakeSettingsStorageService();
+    mockAssistantService = MockAssistantService();
 
     gastosController = GastosController(gastosRepository: mockGastosRepo);
     themeController = ThemeController(settingsService: fakeSettings);
+    assistantController = AssistantController(
+      assistantService: mockAssistantService,
+      gastosRepository: mockGastosRepo,
+    );
     authController = AuthController(
       authRepository: mockAuthRepo,
       storageService: fakeStorage,
@@ -42,6 +51,7 @@ void main() {
     Get.put<AuthController>(authController);
     Get.put<GastosController>(gastosController);
     Get.put<ThemeController>(themeController);
+    Get.put<AssistantController>(assistantController);
   });
 
   tearDown(() {
@@ -102,7 +112,9 @@ void main() {
       expect(find.text('Total Acumulado'), findsOneWidget);
       expect(find.text('\$23.50'), findsOneWidget);
 
-      // Verificar paginación
+      // Verificar paginación tras desplazar la lista
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
+      await tester.pumpAndSettle();
       expect(find.text('Mostrando 2 de 2 gastos'), findsOneWidget);
     });
 

@@ -1,3 +1,4 @@
+import 'package:bolsillo_claro/controllers/assistant_controller.dart';
 import 'package:bolsillo_claro/controllers/auth_controller.dart';
 import 'package:bolsillo_claro/controllers/gastos_controller.dart';
 import 'package:bolsillo_claro/core/theme/app_theme.dart';
@@ -8,6 +9,7 @@ import 'package:bolsillo_claro/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import '../mocks/mock_assistant_dependencies.dart';
 import '../mocks/mock_auth_dependencies.dart';
 import '../mocks/mock_gastos_dependencies.dart';
 
@@ -16,9 +18,11 @@ void main() {
   late FakeStorageService fakeStorageService;
   late MockGastosRepository mockGastosRepository;
   late FakeSettingsStorageService fakeSettingsStorageService;
+  late MockAssistantService mockAssistantService;
   late AuthController controller;
   late GastosController gastosController;
   late ThemeController themeController;
+  late AssistantController assistantController;
 
   setUp(() {
     Get.testMode = true;
@@ -26,9 +30,14 @@ void main() {
     fakeStorageService = FakeStorageService();
     mockGastosRepository = MockGastosRepository();
     fakeSettingsStorageService = FakeSettingsStorageService();
+    mockAssistantService = MockAssistantService();
 
     gastosController = GastosController(gastosRepository: mockGastosRepository);
     themeController = ThemeController(settingsService: fakeSettingsStorageService);
+    assistantController = AssistantController(
+      assistantService: mockAssistantService,
+      gastosRepository: mockGastosRepository,
+    );
     controller = AuthController(
       authRepository: mockAuthRepository,
       storageService: fakeStorageService,
@@ -38,6 +47,7 @@ void main() {
     Get.put<AuthController>(controller);
     Get.put<GastosController>(gastosController);
     Get.put<ThemeController>(themeController);
+    Get.put<AssistantController>(assistantController);
   });
 
   tearDown(() {

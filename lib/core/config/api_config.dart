@@ -21,4 +21,12 @@ class ApiConfig {
   static const String gastosResumenEndpoint = '/gastos/resumen';
   static const String gastosCategoriasEndpoint = '/gastos/categorias';
   static String gastoDetailEndpoint(int id) => '/gastos/$id';
+
+  /// URL base del proxy del asistente de IA configurada por --dart-define.
+  static const String assistantBaseUrl = String.fromEnvironment(
+    'ASSISTANT_BASE_URL',
+    defaultValue: 'http://10.0.2.2:3000',
+  );
+
+  static const String assistantEndpoint = '/asistente';
 }

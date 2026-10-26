@@ -5,6 +5,7 @@ import '../../controllers/gastos_controller.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/theme_controller.dart';
 import '../../data/models/gasto_model.dart';
+import '../assistant/assistant_view.dart';
 import 'widgets/categoria_filter_bar.dart';
 import 'widgets/gasto_card.dart';
 import 'widgets/gasto_form_dialog.dart';
@@ -19,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentTab = 0;
+
   @override
   void initState() {
     super.initState();
@@ -118,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bolsillo Claro'),
+        title: Text(_currentTab == 0 ? 'Bolsillo Claro' : 'Asistente IA'),
         actions: [
           // Alternar tema claro / oscuro
           Obx(
@@ -140,19 +143,42 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
-        foregroundColor: isDark ? const Color(0xFF0A192F) : Colors.white,
-        icon: const Icon(Icons.add_rounded),
-        label: const Text(
-          'Nuevo Gasto',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        onPressed: () => GastoFormDialog.show(context),
+      floatingActionButton: _currentTab == 0
+          ? FloatingActionButton.extended(
+              backgroundColor: isDark ? AppTheme.lightGreen : AppTheme.accentGreen,
+              foregroundColor: isDark ? const Color(0xFF0A192F) : Colors.white,
+              icon: const Icon(Icons.add_rounded),
+              label: const Text(
+                'Nuevo Gasto',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () => GastoFormDialog.show(context),
+            )
+          : null,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentTab,
+        onDestinationSelected: (idx) {
+          setState(() {
+            _currentTab = idx;
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.receipt_long_outlined),
+            selectedIcon: Icon(Icons.receipt_long_rounded),
+            label: 'Gastos',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.auto_awesome_outlined),
+            selectedIcon: Icon(Icons.auto_awesome_rounded),
+            label: 'Asistente IA',
+          ),
+        ],
       ),
       body: SafeArea(
-        child: RefreshIndicator(
-          color: AppTheme.accentGreen,
+        child: _currentTab == 0
+            ? RefreshIndicator(
+                color: AppTheme.accentGreen,
           onRefresh: () async {
             final userId = authController.currentUser.value?.id;
             await Future.wait([
@@ -499,8 +525,9 @@ class _HomeScreenState extends State<HomeScreen> {
               }),
             ],
           ),
-        ),
-      ),
+        )
+      : const AssistantView(),
+    ),
     );
   }
 }

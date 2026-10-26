@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'controllers/assistant_controller.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/gastos_controller.dart';
 import 'core/network/api_client.dart';
@@ -13,6 +14,7 @@ import 'data/repositories/auth_repository.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'data/repositories/gastos_repository.dart';
 import 'data/repositories/gastos_repository_impl.dart';
+import 'data/services/assistant_service.dart';
 import 'routes/app_routes.dart';
 
 void main() async {
@@ -48,6 +50,15 @@ void main() async {
 
   Get.put<GastosController>(
     GastosController(gastosRepository: gastosRepository),
+  );
+
+  final assistantService = AssistantServiceImpl();
+  Get.put<AssistantService>(assistantService);
+  Get.put<AssistantController>(
+    AssistantController(
+      assistantService: assistantService,
+      gastosRepository: gastosRepository,
+    ),
   );
 
   Get.put<AuthController>(
