@@ -7,6 +7,12 @@ class AppException implements Exception {
 
   const AppException(this.message, {this.statusCode});
 
+  /// Determina si este error califica para mostrar datos de respaldo en caché:
+  /// Solo errores de red o errores internos del servidor (5xx).
+  /// Jamás para errores de autenticación (401), validación (422) o de negocio (400).
+  bool get isCacheFallbackEligible =>
+      this is NetworkException || (statusCode != null && statusCode! >= 500);
+
   @override
   String toString() => message;
 }

@@ -3,16 +3,20 @@ import '../core/errors/exceptions.dart';
 import '../core/storage/storage_service.dart';
 import '../data/models/user_model.dart';
 import '../data/repositories/auth_repository.dart';
+import '../data/repositories/gastos_repository.dart';
 import '../routes/app_routes.dart';
+import 'gastos_controller.dart';
 
 /// Controlador GetX responsable de la sesión y autenticación del usuario.
 class AuthController extends GetxController {
   final AuthRepository authRepository;
   final StorageService storageService;
+  final GastosRepository? gastosRepository;
 
   AuthController({
     required this.authRepository,
     required this.storageService,
+    this.gastosRepository,
   });
 
   final Rx<UserModel?> currentUser = Rx<UserModel?>(null);
@@ -154,9 +158,20 @@ class AuthController extends GetxController {
     }
   }
 
-  /// Cierra la sesión activa y elimina las credenciales locales.
+  /// Cierra la sesión activa, borra la caja de caché del usuario y elimina las credenciales locales.
   Future<void> logout() async {
     try {
+      final userId = currentUser.value?.id;
+      if (userId != null) {
+        if (gastosRepository != null) {
+          await gastosRepository!.clearUserCache(userId);
+        } else if (Get.isRegistered<GastosRepository>()) {
+          await Get.find<GastosRepository>().clearUserCache(userId);
+        }
+      }
+      if (Get.isRegistered<GastosController>()) {
+        Get.find<GastosController>().clearLocalState();
+      }
       await storageService.clearAll();
     } catch (_) {
       // Ignorar fallas de borrado local al salir

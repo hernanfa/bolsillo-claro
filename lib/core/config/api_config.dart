@@ -11,8 +11,14 @@ class ApiConfig {
   static const Duration connectTimeout = Duration(seconds: 10);
   static const Duration receiveTimeout = Duration(seconds: 10);
 
-  // Endpoints del backend segun contrato OpenAPI
+  // Endpoints de autenticación y usuario
   static const String registerEndpoint = '/usuarios/';
   static const String loginEndpoint = '/usuarios/token';
   static const String meEndpoint = '/usuarios/me';
+
+  // Endpoints de gastos
+  static const String gastosEndpoint = '/gastos/';
+  static const String gastosResumenEndpoint = '/gastos/resumen';
+  static const String gastosCategoriasEndpoint = '/gastos/categorias';
+  static String gastoDetailEndpoint(int id) => '/gastos/$id';
 }

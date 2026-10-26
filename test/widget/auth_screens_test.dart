@@ -1,5 +1,7 @@
 import 'package:bolsillo_claro/controllers/auth_controller.dart';
+import 'package:bolsillo_claro/controllers/gastos_controller.dart';
 import 'package:bolsillo_claro/core/theme/app_theme.dart';
+import 'package:bolsillo_claro/core/theme/theme_controller.dart';
 import 'package:bolsillo_claro/data/models/user_model.dart';
 import 'package:bolsillo_claro/views/auth/login_screen.dart';
 import 'package:bolsillo_claro/views/home/home_screen.dart';
@@ -7,21 +9,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import '../mocks/mock_auth_dependencies.dart';
+import '../mocks/mock_gastos_dependencies.dart';
 
 void main() {
   late MockAuthRepository mockAuthRepository;
   late FakeStorageService fakeStorageService;
+  late MockGastosRepository mockGastosRepository;
+  late FakeSettingsStorageService fakeSettingsStorageService;
   late AuthController controller;
+  late GastosController gastosController;
+  late ThemeController themeController;
 
   setUp(() {
     Get.testMode = true;
     mockAuthRepository = MockAuthRepository();
     fakeStorageService = FakeStorageService();
+    mockGastosRepository = MockGastosRepository();
+    fakeSettingsStorageService = FakeSettingsStorageService();
+
+    gastosController = GastosController(gastosRepository: mockGastosRepository);
+    themeController = ThemeController(settingsService: fakeSettingsStorageService);
     controller = AuthController(
       authRepository: mockAuthRepository,
       storageService: fakeStorageService,
+      gastosRepository: mockGastosRepository,
     );
+
     Get.put<AuthController>(controller);
+    Get.put<GastosController>(gastosController);
+    Get.put<ThemeController>(themeController);
   });
 
   tearDown(() {
@@ -95,10 +111,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Bolsillo Claro'), findsOneWidget);
-      expect(find.text('¡Bienvenido!'), findsOneWidget);
+      expect(find.text('Control de Gastos'), findsOneWidget);
       expect(find.text('usuario.demo@bolsilloclaro.com'), findsOneWidget);
-      expect(find.text('Sesión activa'), findsOneWidget);
-      expect(find.text('Cerrar Sesión'), findsWidgets);
+      expect(find.byIcon(Icons.logout_rounded), findsOneWidget);
+      expect(find.text('Nuevo Gasto'), findsOneWidget);
     });
   });
 }
